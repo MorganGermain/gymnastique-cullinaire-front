@@ -8,5 +8,5 @@ export class RecetteList {
 
     public Id: number;
     public Nom: string;
-    public Duree: Time;
+    public Duree: Time = new Time(0);
 }

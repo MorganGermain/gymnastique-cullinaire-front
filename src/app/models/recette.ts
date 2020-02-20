@@ -1,6 +1,7 @@
 import { Time } from './time';
 import { QuantiteIngredient } from './quantite';
 import { RecetteList } from './recetteList';
+import { Etape } from './etape';
 
 export class Recette {
 
@@ -10,11 +11,13 @@ export class Recette {
 
     public Id: number;
     public Nom: string;
-    public DureeCuisson: Time;
-    public DureePreparation: Time;
+    public Description: string;
+    public DureeCuisson: Time = new Time(0);
+    public DureePreparation: Time= new Time(0);
     public DateAjout: Date;
-    public Ingredients: QuantiteIngredient[];
+    public Ingredients: QuantiteIngredient[] = [];
     public NombreDePersonne: number;
+    public Etapes: Etape[] = [];
 
     public toRecetteList(): RecetteList {
         const recetteList: RecetteList = new RecetteList({

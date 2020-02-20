@@ -8,7 +8,7 @@ export class QuantiteIngredient {
     }
 
     public IdRecette: number;
-    public Ingredient: Ingredient;
+    public Ingredient: Ingredient = new Ingredient();
     public Quantite: number;
-    public Unite: Unite;
+    public Unite: Unite = new Unite();
 }

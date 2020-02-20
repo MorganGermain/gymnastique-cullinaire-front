@@ -1,13 +1,12 @@
 <div class="row w-100">
   <nb-card *ngFor="let recette of recettesList" class="col-md-6">
-    <nb-card-body>
-      <div class="container row">
+    <a class="w-100" [routerLink]="['/pages/recettes', recette.Id]" routerLinkActive="active">
+      <nb-card-body>
         <div class="d-flex flex-column">
           <h4>{{ recette.Nom }}</h4>
           Durée: {{ recette.Duree.hours }}h{{ recette.Duree.minutes }}
         </div>
-      </div>
-    </nb-card-body>
-
+      </nb-card-body>
+    </a>
   </nb-card>
 </div>
