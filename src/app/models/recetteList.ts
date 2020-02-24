@@ -9,4 +9,5 @@ export class RecetteList {
     public Id: number;
     public Nom: string;
     public Duree: Time = new Time(0);
+    public Selected: boolean = false;
 }
