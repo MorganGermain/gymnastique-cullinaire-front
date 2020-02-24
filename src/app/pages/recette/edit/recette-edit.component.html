@@ -1,0 +1,128 @@
+<div class="row w-100" *ngIf="recette != null">
+  <nb-card class="col-md-12">
+    <nb-card-body>
+      <div class="container row vertical-separator">
+        <div class="col-md-12 d-flex justify-content-between" *ngIf="!isEditMode">
+          <h3>{{ recette.Nom }}</h3>
+          <button class="btn btn-warning" (click)="setEditMode()">Edition</button>
+        </div>
+        <div class="col-md-12 d-flex justify-content-between" *ngIf="isEditMode">
+          <div class="d-flex align-items-center">
+            Titre:&nbsp;
+            <input class="form-control" placeholder="Titre" type="text" [(ngModel)]="recetteEdit.Nom">
+          </div>
+          <div>
+            <button class="btn btn-success" (click)="save()">Sauvegarder</button>
+            <button class="btn btn-danger" (click)="setReadMode()">Annuler</button>
+          </div>
+        </div>
+      </div>
+      <div class="container row">
+        <div class="col-md-3 lateral-separator">
+          <div *ngIf="!isEditMode">
+            <p>Durée de préparation:
+              {{ recette.DureePreparation.heure > 0? recette.DureePreparation.hours + 'h' + recette.DureePreparation.minutes: recette.DureePreparation.minutes + ' minutes' }}
+            </p>
+            <p>Durée de cuisson:
+              {{ recette.DureePreparation.heure > 0? recette.DureeCuisson.hours + 'h' + recette.DureeCuisson.minutes: recette.DureeCuisson.minutes + ' minutes' }}
+            </p>
+            <p>Recette pour {{ recette.NombreDePersonne }} personne{{ recette.NombreDePersonne > 1?'s':''}}</p>
+          </div>
+          <div *ngIf="isEditMode">
+            <div class="w-100">
+              Durée de préparation:
+              <div class="d-flex align-items-center">
+                <input type="number" class="form-control" [(ngModel)]="recetteEdit.DureePreparation.hours">
+                &nbsp;h&nbsp;
+                <input type="number" class="form-control" [(ngModel)]="recetteEdit.DureePreparation.minutes">
+              </div>
+            </div>
+            <div class="w-100">
+              Durée de cuisson:
+              <div class="d-flex align-items-center">
+                <input type="number" class="form-control" [(ngModel)]="recetteEdit.DureeCuisson.hours">
+                &nbsp;h&nbsp;
+                <input type="number" class="form-control" [(ngModel)]="recetteEdit.DureeCuisson.minutes">
+              </div>
+            </div>
+            <div class="w-100">
+              Nombre de personnes:
+              <input type="number" class="form-control" [(ngModel)]="recetteEdit.NombreDePersonne">
+            </div>
+          </div>
+
+          <h4>Ingrédients:</h4>
+          <div *ngFor="let ingredient of isEditMode?recetteEdit.Ingredients:recette.Ingredients; let i = index">
+            <div class="d-flex justify-content-between align-items-center">
+              <div *ngIf="!isEditMode">
+                <h5>{{ ingredient.Ingredient.Nom }}</h5>
+              </div>
+              <div *ngIf="isEditMode">
+                Nom: <input type="text" class="form-control" [(ngModel)]="ingredient.Ingredient.Nom">
+              </div>
+              <button class="btn btn-danger btn-small" *ngIf="isEditMode"
+                (click)="removeIngredient(i)">x</button>
+            </div>
+            <div *ngIf="!isEditMode">
+              {{ ingredient.Quantite }} {{ ingredient.Unite.Nom }}
+            </div>
+            <div *ngIf="isEditMode">
+              Quantité: <input type="number" class="form-control" [(ngModel)]="ingredient.Quantite">
+              Unité: <input type="text" class="form-control" [(ngModel)]="ingredient.Unite.Nom">
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-center" *ngIf="isEditMode">
+            <button class="btn btn-success p-0 circle d-flex align-items-center justify-content-center"
+              (click)="addIngredient()">+</button>
+          </div>
+
+        </div>
+
+        <div class="col-md-9">
+          <h4>Description: </h4>
+          <p *ngIf="!isEditMode">{{ recette.Description }}</p>
+          <div *ngIf="isEditMode">
+            Description: <textarea class="form-control" [(ngModel)]="recetteEdit.Description"></textarea>
+          </div>
+
+          <h4>Etapes: </h4>
+          <div *ngFor="let etape of isEditMode?recetteEdit.Etapes:recette.Etapes; let i = index" class="d-flex flex-row mb-1">
+            <div class="d-flex">
+              <div class="d-flex flex-column" *ngIf="isEditMode">
+                <div class="clickable" *ngIf="etape.Order != 1" (click)="changeEtapeOrderUp(etape.Order, true)">↑</div>
+                <div class="clickable" *ngIf="etape.Order < recetteEdit.Etapes.length"
+                  (click)="changeEtapeOrderUp(etape.Order, false)">↓</div>
+              </div>
+              <div class="circle order-circle">
+                {{ etape.Order }}
+              </div>
+            </div>
+            <div class="w-100">
+              <p *ngIf="!isEditMode">{{ etape.Valeur }}</p>
+              <div *ngIf="isEditMode" class="w-100">
+                Etape: <textarea class="form-control" [(ngModel)]="etape.Valeur"></textarea>
+              </div>
+            </div>
+            
+            <button class="btn btn-danger btn-small" *ngIf="isEditMode"
+            (click)="removeEtape(i)">x</button>
+          </div>
+          <div class="d-flex align-items-center justify-content-center" *ngIf="isEditMode">
+            <button class="btn btn-success p-0 circle d-flex align-items-center justify-content-center"
+              (click)="addEtape()">+</button>
+          </div>
+
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</div>
+
+<div class="w-100" *ngIf="recette == null">
+  <nb-card class="d-flex justify-content-center align-items-center">
+    <nb-card-body>
+      Chargement de la recette en cours.
+    </nb-card-body>
+  </nb-card>
+</div>

@@ -1,0 +1,46 @@
+<div class="row w-100">
+  <nb-card class="col-md-12">
+    <nb-card-body>
+      <form onsubmit="return false" class="row justify-content-between md-form form-sm mt-0">
+        <div class="col-md-9 d-flex">
+          <div class="input-group-prepend d-flex flex-row">
+            <button (click)="search(searchBar.value)" type="submit" class="input-group-text h-100" id="basic-text1">
+              <nb-icon icon="search-outline"></nb-icon>
+            </button>
+          </div>
+          <input #searchBar class="form-control h-100 w-inherit" type="text" placeholder="Recherche"
+            aria-label="Search">
+        </div>
+        <button type="button" class="btn btn-success col-md-3" (click)="generatePdf()"
+          [disabled]="getSelectedRecettesList().length == 0">Générer le livre de recettes</button>
+      </form>
+    </nb-card-body>
+  </nb-card>
+</div>
+
+<div class="row w-100 d-flex justify-content-around" *ngIf="recettesList.length > 0">
+  <nb-card *ngFor="let recette of recettesList; let i = index" class="row"
+    [ngClass]="{'col-md-5': i != 0 || recettesList.length % 2 == 0, 'col-md-12': i == 0 && recettesList.length % 2 == 1}">
+    <a class="col-md-8" [routerLink]="['/pages/recettes', recette.Id]" routerLinkActive="active">
+      <nb-card-body>
+        <div class="d-flex flex-column">
+          <h4>{{ recette.Nom }}</h4>
+          Durée: {{ recette.Duree.hours }}h{{ recette.Duree.minutes }}
+        </div>
+      </nb-card-body>
+    </a>
+    <div class="col-md-4 d-flex align-items-center">
+      <div class="btn-group-toggle d-flex flex-row-reverse w-100" data-toggle="buttons">
+        <label class="btn btn-secondary active clickable d-flex align-items-center"
+          [ngClass]="{'btn-success': recette.Selected == true, 'btn-secondary': recette.Selected == false}">
+          <input type="checkbox" checked autocomplete="off" [(ngModel)]="recette.Selected"> Sélectionner
+        </label>
+      </div>
+    </div>
+
+  </nb-card>
+</div>
+
+<div class="d-flex align-items-center w-100" *ngIf="recettesList.length === 0">
+  Pas de résultat :c
+</div>

@@ -1,0 +1,31 @@
+.lateral-separator{
+    border-right: 1px solid grey;
+}
+
+.vertical-separator{
+    border-bottom: 1px solid grey;
+    margin-bottom: 10px;
+}
+
+.circle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+}
+
+.order-circle{
+    background-color: yellow;
+    margin-right: 5px;
+}
+
+.btn-small{
+    padding: 0px 5px;
+    height: 50%;
+}
+
+.clickable{
+    cursor: pointer;
+}
